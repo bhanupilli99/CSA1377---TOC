@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STACK_SIZE 20
+
+char stack[MAX_STACK_SIZE];
+int top = -1; // Initialize top to -1 to indicate an empty stack
+
+void push(char c) {
+    if (top == MAX_STACK_SIZE - 1) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack[++top] = c;
+}
+
+char pop() {
+    if (top == -1) {
+        printf("Stack underflow\n");
+        return '\0';
+    }
+    return stack[top--];   
+
+}
+
+int main() {
+    char input[MAX_STACK_SIZE];
+    printf("Enter a string: ");
+    scanf("%s", input);
+
+    int len = strlen(input);
+    int i = 0;
+    push('Z'); // Push the initial symbol 'Z'
+
+    printf("Stack\tInput\n");
+    printf("%c\t%s\n", stack[top], input);
+
+    while (i < len) {
+        if (input[i] == '0') {
+            push('0');
+        } else if (input[i] == '1') {
+            if (pop() != '0') {
+                printf("String not accepted\n");
+                return 0;
+            }
+        } else {
+            printf("Invalid input symbol\n");
+            return 0;
+        }
+
+        printf("%s\t%s\n", stack, input + i);
+        i++;
+    }
+
+    if (top == 0) {
+        printf("String accepted\n");
+    } else {
+        printf("String not accepted\n");
+    }
+
+    return 0;
+}
